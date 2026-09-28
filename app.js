@@ -36,6 +36,18 @@
     addEventListener('resize',()=>{index=Math.min(index,max());renderDots();go(index);});
     renderDots();go(0);restart(); states[name]={go};
   }
+  // B8.0 HERO — assets finales suministrados para el carrusel Premium.
+  // Los tres visuales comparten exactamente 1536x576 (8:3) para evitar recortes distintos entre dispositivos.
+  (() => {
+    const heroAssets = ['assets/hero-01.webp','assets/hero-02.webp','assets/hero-03.webp'];
+    $$('#heroSlides .slide .slide-image img').forEach((img,i) => {
+      if (!heroAssets[i]) return;
+      img.src = heroAssets[i];
+      img.removeAttribute('srcset');
+      img.loading = 'eager';
+      img.decoding = 'async';
+    });
+  })();
   carousel('hero',$('[data-carousel="hero"]'),$('#heroSlides'),$$('.slide'),$('#heroDots'),()=>1,6000);
   carousel('offers',$('[data-carousel="offers"]'),$('#offerTrack'),$$('.offer'),$('#offerDots'),()=>innerWidth<=780?1:innerWidth<=1100?2:3,6500);
   carousel('product',$('[data-carousel="product"]'),$('#productTrack'),$$('#productTrack figure'),$('#productDots'),()=>1,5500);

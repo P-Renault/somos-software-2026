@@ -26,3 +26,13 @@ Los archivos del sitio están en la raíz del paquete para GitHub Pages. Las tre
 
 ## B8.0 Carrusel autocontenido
 Las tres imágenes del carrusel principal están embebidas directamente en `index.html` como JPEG Base64. Esto evita que GitHub Pages deje el carrusel vacío cuando se sube solamente el HTML o cuando las rutas relativas de `assets/hero/` no quedan publicadas. El diseño B8.0 no fue modificado fuera del carrusel principal.
+
+
+B8.0 v3: el carrusel principal usa tres visuales independientes y además los lleva inline como fallback para evitar reutilización de imágenes antiguas en GitHub Pages.
+
+
+## Carrusel Premium — entrega actual
+
+Los tres visuales del banner principal fueron reemplazados por los recursos entregados para esta versión. Los tres originales tienen proporción exacta **1536 × 576 px (8:3)** y se sirven como WebP para mantener nitidez y rendimiento. La misma relación 8:3 se mantiene en el área visual del carrusel tanto en escritorio como en móvil, mientras que el título y la descripción permanecen como HTML/CSS independiente.
+
+Archivos: `assets/hero-01.webp`, `assets/hero-02.webp`, `assets/hero-03.webp`.
