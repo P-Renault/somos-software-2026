@@ -22,3 +22,7 @@ No se modificó el carrusel de ofertas ni el carrusel del producto financiero.
 
 ### B8.0 — corrección de assets del carrusel principal
 Los archivos del sitio están en la raíz del paquete para GitHub Pages. Las tres imágenes del carrusel están en `assets/hero/` y cada slide incluye WebP + JPG de respaldo. No se modificó la estructura visual de las demás secciones.
+
+
+## B8.0 Carrusel autocontenido
+Las tres imágenes del carrusel principal están embebidas directamente en `index.html` como JPEG Base64. Esto evita que GitHub Pages deje el carrusel vacío cuando se sube solamente el HTML o cuando las rutas relativas de `assets/hero/` no quedan publicadas. El diseño B8.0 no fue modificado fuera del carrusel principal.
