@@ -1,49 +1,48 @@
-const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
-$('#year').textContent=new Date().getFullYear();
+(() => {
+  const $ = (s, r=document) => r.querySelector(s);
+  const $$ = (s, r=document) => [...r.querySelectorAll(s)];
+  const year = $('#year'); if (year) year.textContent = new Date().getFullYear();
 
-// Mobile navigation
-const menu=$('#menuToggle'), nav=$('#mainNav');
-menu.addEventListener('click',()=>{const open=nav.classList.toggle('open');menu.setAttribute('aria-expanded',String(open));});
-$$('#mainNav a').forEach(a=>a.addEventListener('click',()=>{nav.classList.remove('open');menu.setAttribute('aria-expanded','false');}));
+  const menu = $('#menu'), nav = $('#nav');
+  if (menu && nav) {
+    menu.addEventListener('click', () => { const open = nav.classList.toggle('open'); menu.setAttribute('aria-expanded', String(open)); });
+    $$('a', nav).forEach(a => a.addEventListener('click', () => { nav.classList.remove('open'); menu.setAttribute('aria-expanded','false'); }));
+  }
 
-// Scroll progress + compact header
-const progress=$('#scrollProgress'), header=$('#siteHeader');
-addEventListener('scroll',()=>{const max=document.documentElement.scrollHeight-innerHeight;progress.style.width=`${Math.min(100,scrollY/Math.max(max,1)*100)}%`;header.classList.toggle('scrolled',scrollY>20)},{passive:true});
+  const progress = $('#progress'), header = $('#header');
+  const scrollUI = () => { const max = document.documentElement.scrollHeight - innerHeight; if(progress) progress.style.width = `${Math.max(0,Math.min(100,scrollY/Math.max(1,max)*100))}%`; if(header) header.classList.toggle('scrolled', scrollY > 20); };
+  addEventListener('scroll', scrollUI, {passive:true}); scrollUI();
 
-// Reveal on scroll
-const observer=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')}),{threshold:.12});
-$$('.reveal').forEach(el=>observer.observe(el));
+  // Content is visible even if JS fails. JS only adds animation.
+  $$('.animate').forEach(el => el.classList.add('ready'));
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver(es => es.forEach(e => { if(e.isIntersecting){e.target.classList.add('show');io.unobserve(e.target);} }), {threshold:.12});
+    $$('.animate').forEach(el => io.observe(el));
+  } else $$('.animate').forEach(el => el.classList.add('show'));
 
-function makeCarousel({root,track,items,dots,prev,next,visible=1,interval=5000}){
-  let index=0,timer=null,startX=0;
-  const getVisible=()=>typeof visible==='function'?visible():visible;
-  function pageCount(){return Math.max(1,items.length-getVisible()+1)}
-  function renderDots(){dots.innerHTML='';for(let i=0;i<pageCount();i++){const b=document.createElement('button');b.type='button';b.setAttribute('aria-label',`Ir a ${i+1}`);b.className=i===index?'active':'';b.onclick=()=>go(i,true);dots.appendChild(b)}}
-  function go(i,manual=false){const max=pageCount()-1;index=Math.max(0,Math.min(i,max));const width=items[0].getBoundingClientRect().width;const gap=parseFloat(getComputedStyle(track).gap)||0;track.style.transform=`translate3d(${-index*(width+gap)}px,0,0)`;$$('button',dots).forEach((b,j)=>b.classList.toggle('active',j===index));if(manual)restart()}
-  function restart(){if(timer)clearInterval(timer);if(interval>0)timer=setInterval(()=>go(index>=pageCount()-1?0:index+1),interval)}
-  prev.addEventListener('click',()=>go(index-1,true));next.addEventListener('click',()=>go(index+1,true));
-  root.addEventListener('mouseenter',()=>{if(timer)clearInterval(timer)});root.addEventListener('mouseleave',restart);root.addEventListener('touchstart',e=>{startX=e.touches[0].clientX},{passive:true});root.addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-startX;if(Math.abs(dx)>45)go(index+(dx<0?1:-1),true)},{passive:true});
-  addEventListener('resize',()=>{renderDots();go(index)});renderDots();go(0);restart();
-}
+  const states = {};
+  function carousel(name, root, track, items, dots, visibleFn, interval) {
+    if(!root || !track || !items.length) return;
+    let index=0, timer=null, startX=0;
+    const visible=()=>Math.max(1,Math.min(items.length,visibleFn()));
+    const max=()=>Math.max(0,items.length-visible());
+    const renderDots=()=>{ if(!dots) return; dots.innerHTML=''; for(let i=0;i<=max();i++){const b=document.createElement('button');b.type='button';b.setAttribute('aria-label',`Ir a ${i+1}`);b.className=i===index?'active':'';b.onclick=()=>go(i,true);dots.appendChild(b);} };
+    const go=(i,manual=false)=>{index=Math.max(0,Math.min(i,max())); const gap=parseFloat(getComputedStyle(track).gap)||0; const w=items[0].getBoundingClientRect().width; track.style.transform=`translate3d(${-index*(w+gap)}px,0,0)`; if(dots) $$('button',dots).forEach((b,j)=>b.classList.toggle('active',j===index)); if(manual) restart(); if(name==='hero'){const n=$('#heroNumber');if(n)n.textContent=String(index+1).padStart(2,'0');} };
+    const restart=()=>{if(timer)clearInterval(timer);timer=setInterval(()=>go(index>=max()?0:index+1),interval);};
+    const stop=()=>{if(timer)clearInterval(timer);};
+    $('.prev',root)?.addEventListener('click',()=>go(index-1,true)); $('.next',root)?.addEventListener('click',()=>go(index+1,true));
+    root.addEventListener('mouseenter',stop); root.addEventListener('mouseleave',restart);
+    root.addEventListener('touchstart',e=>startX=e.touches[0].clientX,{passive:true}); root.addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-startX;if(Math.abs(dx)>45)go(index+(dx<0?1:-1),true);},{passive:true});
+    addEventListener('resize',()=>{index=Math.min(index,max());renderDots();go(index);});
+    renderDots();go(0);restart(); states[name]={go};
+  }
+  carousel('hero',$('[data-carousel="hero"]'),$('#heroSlides'),$$('.slide'),$('#heroDots'),()=>1,6000);
+  carousel('offers',$('[data-carousel="offers"]'),$('#offerTrack'),$$('.offer'),$('#offerDots'),()=>innerWidth<=780?1:innerWidth<=1100?2:3,6500);
+  carousel('product',$('[data-carousel="product"]'),$('#productTrack'),$$('#productTrack figure'),$('#productDots'),()=>1,5500);
 
-// Main hero carousel: one slide at a time.
-const heroSlides=$$('.hero-slide'), heroDots=$('#heroDots');
-makeCarousel({root:$('#heroCarousel'),track:$('#heroTrack'),items:heroSlides,dots:heroDots,prev:$('.hero-prev'),next:$('.hero-next'),visible:1,interval:6000});
-const heroObserver=new MutationObserver(()=>{}); // keeps carousel initialization isolated for static hosting
-
-// Offer carousel: 3 desktop, 2 tablet, 1 mobile.
-const offerCards=$$('.offer-card');
-makeCarousel({root:$('#offerCarousel'),track:$('#offerTrack'),items:offerCards,dots:$('#offerDots'),prev:$('.offer-prev'),next:$('.offer-next'),visible:()=>innerWidth<=780?1:innerWidth<=1100?2:3,interval:6500});
-
-// Product carousel.
-const productSlides=$$('.product-track figure');
-makeCarousel({root:$('#productCarousel'),track:$('#productTrack'),items:productSlides,dots:$('#productDots'),prev:$('.product-prev'),next:$('.product-next'),visible:1,interval:5500});
-
-// WhatsApp configuration: replace with the future WOM number, country code included.
-const WHATSAPP_NUMBER='';
-const wa=$('#whatsappButton');
-const defaultMessage='Hola, Somos Software. Me interesa conocer sus soluciones digitales.';
-function whatsappUrl(message){return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`}
-function configureWhatsApp(){if(WHATSAPP_NUMBER){wa.href=whatsappUrl(defaultMessage);wa.removeAttribute('aria-disabled');}else{wa.href='#contacto';wa.setAttribute('aria-disabled','true');}}
-configureWhatsApp();
-$$('[data-offer]').forEach(btn=>btn.addEventListener('click',e=>{if(!WHATSAPP_NUMBER){e.preventDefault();$('#contacto').scrollIntoView({behavior:'smooth'});return}wa.href=whatsappUrl(`Hola, Somos Software. Me interesa la oferta ${btn.dataset.offer}.`)}));
+  const WHATSAPP_NUMBER='';
+  const wa=$('#whatsapp');
+  const waUrl=m=>`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(m)}`;
+  if(wa && WHATSAPP_NUMBER) wa.href=waUrl('Hola, Somos Software. Me interesa conocer sus soluciones digitales.');
+  $$('[data-offer]').forEach(a=>a.addEventListener('click',e=>{if(!WHATSAPP_NUMBER)return;e.preventDefault();wa.href=waUrl(`Hola, Somos Software. Me interesa la oferta ${a.dataset.offer}.`);location.href=wa.href;}));
+})();
