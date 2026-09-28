@@ -17,3 +17,7 @@
 .product-carousel .product-media{width:100%;aspect-ratio:2/1;min-height:0;border-radius:28px}
 .product-carousel .product-media img{width:100%;height:100%;display:block;object-fit:cover;object-position:center}
 @media(max-width:780px){.product-carousel .product-media{aspect-ratio:16/9;border-radius:18px}.product-carousel .product-media img{object-fit:cover}}
+
+/* B8.0 — hero carousel image reliability */
+.slide-image picture{display:block;width:100%;height:100%;}
+.slide-image picture img{display:block;width:100%;height:100%;object-fit:cover;object-position:center;}

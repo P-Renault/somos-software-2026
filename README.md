@@ -18,3 +18,7 @@ El único cambio funcional es el **carrusel principal**:
 `assets/hero/hero-03.webp`
 
 No se modificó el carrusel de ofertas ni el carrusel del producto financiero.
+
+
+### B8.0 — corrección de assets del carrusel principal
+Los archivos del sitio están en la raíz del paquete para GitHub Pages. Las tres imágenes del carrusel están en `assets/hero/` y cada slide incluye WebP + JPG de respaldo. No se modificó la estructura visual de las demás secciones.
