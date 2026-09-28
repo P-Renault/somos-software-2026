@@ -1,15 +1,10 @@
-# Somos Software Web v6.0 — CCF Wide
+# Somos Software Web v7.0 — CCF autocontenido
 
-Versión basada en v5, con las piezas publicitarias de CCF reconstruidas específicamente para formato horizontal web.
-
-## Cambios
-- Las tres piezas CCF ahora son banners horizontales.
-- El carrusel ocupa el 100% del ancho disponible.
-- Desktop: proporción aproximada 2:1.
-- Móvil: proporción 16:9, con recorte responsive sin deformación.
-- Se conserva el logo real de Somos Software en la interfaz.
-- Carrusel con navegación, autoplay y swipe de la versión anterior.
-- No se muestran las piezas verticales dentro de marcos estrechos.
+Versión preparada para GitHub Pages con los banners CCF embebidos directamente en `index.html`. Esto evita que la sección del producto quede vacía si los archivos de `assets/` no son publicados correctamente.
 
 ## Publicación
-Contenido estático apto para GitHub Pages.
+1. Subir todos los archivos del paquete, o incluso solo `index.html` para comprobar la versión autocontenida.
+2. Si se usa el paquete completo, mantener `styles.css`, `app.js` y `assets/`.
+3. Verificar la página desde móvil.
+
+Los banners CCF se muestran a ancho completo y se recortan proporcionalmente para escritorio y móvil.
