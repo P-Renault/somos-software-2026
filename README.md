@@ -1,20 +1,24 @@
-# Somos Software — Web v4.0
+# Somos Software Web v5.0 — Commercial
 
-Reconstrucción comercial responsive para Somos Software.
+Versión reconstruida para GitHub Pages.
 
-## Flujo
-Hero/carrusel → Servicios → Ofertas → Producto propio → Proceso → Contacto → WhatsApp.
+## Producto propio: CCF Control Financiero
+La sección del producto integra tres piezas publicitarias seleccionadas:
+1. Tecnología que ordena tu vida.
+2. CCF — herramienta simple, completa y confiable.
+3. Control financiero real para tu negocio.
 
-## Incluye
-- Logo real de Somos Software.
-- Carrusel principal con autoplay, flechas, indicadores y swipe.
-- Carrusel comercial de 4 ofertas.
-- Carrusel del Sistema de Control Financiero.
-- Animaciones por IntersectionObserver con fallback visible si JavaScript falla.
-- Menú móvil.
-- Barra de progreso.
-- Responsive web/mobile.
-- No depende de frameworks ni build: abrir `index.html` o publicar la carpeta en GitHub Pages.
+Las piezas verticales se conservan sin deformación mediante un contenedor responsive con fondo ambiental desenfocado. En escritorio se presentan en una composición visual con texto HTML; en móvil pasan a un formato vertical para conservar la lectura de la pieza.
+
+## Carruseles
+- Hero: 3 slides, autoplay, flechas, indicadores y swipe.
+- Ofertas: responsive 3/2/1 tarjetas, autoplay, flechas, indicadores y swipe.
+- CCF: 3 piezas publicitarias seleccionadas, autoplay, flechas, indicadores y swipe.
+
+## Publicación
+Contenido estático: `index.html`, `styles.css`, `app.js` y `assets/`.
+No requiere build.
 
 ## WhatsApp
-En `app.js`, reemplazar `WHATSAPP_NUMBER=''` por el número WOM comercial en formato internacional, sin `+`, espacios ni guiones.
+El número comercial se configura en `app.js` en `WHATSAPP_NUMBER`.
+No se inventa ningún número ni correo comercial.
