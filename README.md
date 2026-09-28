@@ -1,27 +1,33 @@
-# Somos Software — paquete web comercial
+# Somos Software — Web v1.0 Premium
 
-Primera versión comercial de la nueva landing de Somos Software.
+Landing comercial moderna para Somos Software — Innovación Digital.
 
 ## Incluye
-- `index.html`: landing completa.
-- `styles.css`: diseño responsive premium.
-- `docs/`: espacio reservado para documentación de despliegue.
+- Logo real proporcionado por Somos Software.
+- Diseño responsive desktop/mobile.
+- Hero comercial de alta gama.
+- Sección de capacidades: web, sistemas, automatización y móvil.
+- Sección destacada del Sistema de Control Financiero.
+- Carrusel de 3 piezas visuales generadas específicamente para el sitio.
+- Enlace a la demo pública del Sistema de Control Financiero.
+- CTA de WhatsApp preparado para el futuro número comercial WOM.
+- Microinteracciones y navegación por secciones.
+- Sin testimonios, métricas, direcciones, teléfonos o clientes inventados.
 
-## Características
-- Hero comercial.
-- Servicios: sitios web, sistemas a medida, automatización y móvil.
-- Producto propio: Sistema de Control Financiero.
-- Enlace a la demo actual: https://p-renault.github.io/Finanzas/
-- Proceso comercial de 4 etapas.
-- CTA de diagnóstico.
-- Formulario que prepara una consulta para WhatsApp.
-- Responsive para escritorio y celular.
+## Configurar WhatsApp
+En `index.html`, busca:
 
-## Antes de producción
-1. Reemplazar el enlace de WhatsApp por el número comercial definitivo.
-2. Incorporar el logo oficial en `/assets/` si se desea utilizar el archivo local.
-3. Definir dominio definitivo.
-4. Probar formulario, enlaces y visualización móvil.
-5. Publicar en GitHub Pages, Vercel u otro hosting.
+`const WHATSAPP_NUMBER='';`
 
-Este paquete no modifica ni contiene el código del Sistema de Control Financiero; únicamente enlaza hacia su demostración pública.
+Cuando exista el número comercial, escríbelo en formato internacional, sin `+`, espacios ni guiones. Ejemplo de estructura: `569XXXXXXXX`.
+
+## Publicación
+Este paquete es estático y puede publicarse en GitHub Pages, Netlify, Vercel o cualquier hosting estático.
+
+## Próxima evolución propuesta
+1. Confirmar número WOM de Somos Software.
+2. Crear perfil WhatsApp Business y catálogo/servicios.
+3. Evaluar atención manual, respuestas automáticas y posteriormente IA.
+4. Reemplazar progresivamente las piezas conceptuales por capturas reales del producto.
+5. Conectar formulario/CTA con CRM o backend si el volumen comercial lo requiere.
+6. Definir dominio comercial definitivo.
