@@ -1,10 +1,26 @@
-# Somos Software Web v7.0 — CCF autocontenido
+# Somos Software — V9
 
-Versión preparada para GitHub Pages con los banners CCF embebidos directamente en `index.html`. Esto evita que la sección del producto quede vacía si los archivos de `assets/` no son publicados correctamente.
+Versión V9 del sitio comercial, basada en la dirección visual B8 y con intervención enfocada en el banner principal.
 
-## Publicación
-1. Subir todos los archivos del paquete, o incluso solo `index.html` para comprobar la versión autocontenida.
-2. Si se usa el paquete completo, mantener `styles.css`, `app.js` y `assets/`.
-3. Verificar la página desde móvil.
+## Cambio principal
+- Carrusel dinámico de 3 slides.
+- Imágenes independientes en `assets/hero/hero-01.webp`, `hero-02.webp`, `hero-03.webp`.
+- Autoplay cada 6,5 s.
+- Flechas, indicadores y swipe móvil.
+- Responsive desktop/tablet/móvil.
+- El carrusel posiciona a Somos Software como empresa tecnológica; no utiliza CCF como protagonista del banner.
+- CCF permanece en su sección de producto propio.
 
-Los banners CCF se muestran a ancho completo y se recortan proporcionalmente para escritorio y móvil.
+## Estructura
+- `index.html`
+- `styles.css`
+- `script.js`
+- `assets/hero/*`
+
+## Antes de producción
+1. Configurar el número comercial real de WhatsApp en `script.js` en lugar del enlace genérico `wa.me/?text=`.
+2. Sustituir el logotipo CSS por el archivo oficial si se desea máxima fidelidad de marca.
+3. Probar el carrusel en Android, iOS y escritorio.
+4. Publicar el contenido en el repositorio/hosting de producción.
+
+Esta V9 es un paquete independiente para validar el nuevo hero/carrusel sin tocar el repositorio original.
