@@ -134,3 +134,10 @@
   .slide.is-active .slide-image img{transform:none}
   .reveal-item{opacity:1!important;transform:none!important;transition:none!important}
 }
+
+/* B8.0 — hero title progressive word reveal (isolated change) */
+.hero h1 .hero-title-word{display:inline-block;opacity:0;transform:translate3d(0,18px,0);filter:blur(4px);will-change:transform,opacity,filter}
+.hero-copy.show .hero-title-word{animation:heroWordReveal .58s cubic-bezier(.22,.7,.2,1) forwards}
+.hero-copy.show .hero-title-word:nth-child(1){animation-delay:.08s}.hero-copy.show .hero-title-word:nth-child(2){animation-delay:.25s}.hero-copy.show .hero-title-word:nth-child(3){animation-delay:.42s}.hero-copy.show .hero-title-word:nth-child(4){animation-delay:.59s}.hero-copy.show .hero-title-word:nth-child(5){animation-delay:.76s}.hero-copy.show .hero-title-word:nth-child(6){animation-delay:.93s}.hero-copy.show .hero-title-word:nth-child(7){animation-delay:1.10s}
+@keyframes heroWordReveal{to{opacity:1;transform:translate3d(0,0,0);filter:blur(0)}}
+@media(prefers-reduced-motion:reduce){.hero h1 .hero-title-word,.hero-copy.show .hero-title-word{opacity:1;transform:none;filter:none;animation:none}}
