@@ -27,8 +27,28 @@
     const visible=()=>Math.max(1,Math.min(items.length,visibleFn()));
     const max=()=>Math.max(0,items.length-visible());
     const renderDots=()=>{ if(!dots) return; dots.innerHTML=''; for(let i=0;i<=max();i++){const b=document.createElement('button');b.type='button';b.setAttribute('aria-label',`Ir a ${i+1}`);b.className=i===index?'active':'';b.onclick=()=>go(i,true);dots.appendChild(b);} };
-    const go=(i,manual=false)=>{index=Math.max(0,Math.min(i,max())); const gap=parseFloat(getComputedStyle(track).gap)||0; const w=items[0].getBoundingClientRect().width; track.style.transform=`translate3d(${-index*(w+gap)}px,0,0)`; if(dots) $$('button',dots).forEach((b,j)=>b.classList.toggle('active',j===index)); if(manual) restart(); if(name==='hero'){const n=$('#heroNumber');if(n)n.textContent=String(index+1).padStart(2,'0');} };
-    const restart=()=>{if(timer)clearInterval(timer);timer=setInterval(()=>go(index>=max()?0:index+1),interval);};
+    const go=(i,manual=false)=>{
+      index=Math.max(0,Math.min(i,max()));
+      const gap=parseFloat(getComputedStyle(track).gap)||0;
+      const w=items[0].getBoundingClientRect().width;
+      track.style.transform=`translate3d(${-index*(w+gap)}px,0,0)`;
+      items.forEach((item,j)=>item.classList.toggle('is-active',j===index));
+      if(dots) $$('button',dots).forEach((b,j)=>b.classList.toggle('active',j===index));
+      if(name==='hero'){
+        const n=$('#heroNumber'); if(n)n.textContent=String(index+1).padStart(2,'0');
+        root.style.setProperty('--hero-progress','0%');
+        root.classList.remove('hero-cycle'); void root.offsetWidth; root.classList.add('hero-cycle');
+      }
+      if(manual) restart();
+    };
+    const restart=()=>{
+      if(timer)clearInterval(timer);
+      if(name==='hero'){
+        root.style.setProperty('--hero-progress','0%');
+        root.classList.remove('hero-cycle'); void root.offsetWidth; root.classList.add('hero-cycle');
+      }
+      timer=setInterval(()=>go(index>=max()?0:index+1),interval);
+    };
     const stop=()=>{if(timer)clearInterval(timer);};
     $('.prev',root)?.addEventListener('click',()=>go(index-1,true)); $('.next',root)?.addEventListener('click',()=>go(index+1,true));
     root.addEventListener('mouseenter',stop); root.addEventListener('mouseleave',restart);
@@ -50,6 +70,43 @@
   })();
   carousel('hero',$('[data-carousel="hero"]'),$('#heroSlides'),$$('.slide'),$('#heroDots'),()=>1,6000);
   carousel('offers',$('[data-carousel="offers"]'),$('#offerTrack'),$$('.offer'),$('#offerDots'),()=>innerWidth<=780?1:innerWidth<=1100?2:3,6500);
+  // INTERACTION LAYER — conserva el HTML y la arquitectura B8.0; añade profundidad, luz y movimiento.
+  (() => {
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const hero = $('[data-carousel="hero"]');
+    if (!hero || reduce) return;
+
+    // Parallax muy sutil en escritorio: responde al puntero sin mover la estructura.
+    if (matchMedia('(pointer:fine)').matches) {
+      const visual = $('.slides-window', hero);
+      hero.addEventListener('pointermove', e => {
+        const r = hero.getBoundingClientRect();
+        const x = ((e.clientX-r.left)/r.width-.5)*2;
+        const y = ((e.clientY-r.top)/r.height-.5)*2;
+        visual?.style.setProperty('--mx', `${(x*8).toFixed(2)}px`);
+        visual?.style.setProperty('--my', `${(y*6).toFixed(2)}px`);
+        hero.style.setProperty('--glow-x', `${50+x*22}%`);
+        hero.style.setProperty('--glow-y', `${50+y*18}%`);
+      });
+      hero.addEventListener('pointerleave', () => {
+        hero.style.setProperty('--glow-x','50%'); hero.style.setProperty('--glow-y','50%');
+        $('.slides-window', hero)?.style.setProperty('--mx','0px');
+        $('.slides-window', hero)?.style.setProperty('--my','0px');
+      });
+    }
+  })();
+
+  // Revelado progresivo de tarjetas sin modificar su contenido.
+  if ('IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const reveal = new IntersectionObserver(es => es.forEach(e => {
+      if(e.isIntersecting){ e.target.classList.add('is-revealed'); reveal.unobserve(e.target); }
+    }), {threshold:.12, rootMargin:'0px 0px -8% 0px'});
+    $$('.service-grid article, .offer, .process article, .tags span, .product-media').forEach((el,i)=>{
+      el.style.setProperty('--reveal-delay', `${Math.min(i%4,3)*70}ms`);
+      el.classList.add('reveal-item'); reveal.observe(el);
+    });
+  }
+
   carousel('product',$('[data-carousel="product"]'),$('#productTrack'),$$('#productTrack figure'),$('#productDots'),()=>1,5500);
 
   const WHATSAPP_NUMBER='';
