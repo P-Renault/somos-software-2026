@@ -1,39 +1,10 @@
-# Somos Software — B8.0 Premium Interaction
+# Somos Software B8.0 — Carrusel Financiero Actualizado FINAL · FIX
 
-Base: **Somos Software B8.0 — Carrusel Premium FINAL**.
+Base: Carrusel Premium Title Impact v2 FINAL.
 
-Esta entrega agrega una capa de interacción avanzada **sin rediseñar ni reemplazar la estructura aprobada**.
-
-## Se conserva
-- Estructura completa B8.0.
-- Identidad visual Premium.
-- Textos y contenidos.
-- Tres imágenes finales del carrusel Premium (1536×576 / 8:3).
-- Carrusel, flechas, puntos, contador, autoplay y navegación táctil.
-- Secciones, ofertas, producto, proceso y contacto.
-
-## Se agrega
-- Entrada escalonada de contenidos del slide activo.
-- Transición cinematográfica y zoom muy leve del visual activo.
-- Barrido luminoso sobre la tarjeta del carrusel.
-- Barra de progreso sincronizada con el autoplay.
-- Parallax/glow sutil con puntero en escritorio.
-- Microinteracciones de botones.
-- Revelado progresivo de tarjetas y elementos al hacer scroll.
-- Microelevación y profundidad en elementos interactivos.
-- Adaptación específica para móvil.
-- Respeto por `prefers-reduced-motion`.
-
-## Archivos modificados
-- `app.js`: comportamiento interactivo adicional.
-- `styles.css`: capa visual/animada adicional.
-
-`index.html` y los contenidos del sitio no fueron rediseñados.
-
-
-### Actualización del carrusel del Sistema de Control Financiero
-Se reemplazaron exclusivamente los tres visuales del carrusel de producto, respetando el orden solicitado:
-1. Imagen 3 → primer slide (`assets/ccf-carousel-01.webp`)
-2. Imagen 2 → segundo slide (`assets/ccf-carousel-02.webp`)
-3. Imagen 1 → tercer slide (`assets/ccf-carousel-03.webp`)
-Las imágenes se mantienen en 16:9 para conservar su composición original.
+Corrección específica: carrusel del Sistema de Control Financiero.
+- Orden: imagen 3 → imagen 2 → imagen 1.
+- Una sola diapositiva visible por vez.
+- Proporción visual 16:9 en escritorio y móvil.
+- Imágenes CCF embebidas en index.html para evitar fallos de carga relativos en GitHub Pages.
+- Sin cambios en la estructura general del sitio.
