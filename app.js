@@ -48,63 +48,6 @@
       img.decoding = 'async';
     });
   })();
-  // Premium interaction layer: lightweight, touch-safe and disabled for reduced motion.
-  const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const heroRoot = $('[data-carousel="hero"]');
-  const heroSlides = $$('#heroSlides .slide');
-  if (heroRoot && heroSlides.length) {
-    const progress = document.createElement('div');
-    progress.className = 'hero-progress';
-    progress.innerHTML = '<i></i>';
-    heroRoot.appendChild(progress);
-    const bar = $('i', progress);
-    const restartHeroProgress = () => {
-      if (reduceMotion || !bar) return;
-      bar.style.transition = 'none'; bar.style.width = '0%';
-      requestAnimationFrame(() => requestAnimationFrame(() => {
-        bar.style.transition = 'width 6000ms linear'; bar.style.width = '100%';
-      }));
-    };
-    heroRoot.addEventListener('mouseenter', () => { if(bar) bar.style.transitionPlayState='paused'; });
-    heroRoot.addEventListener('mouseleave', () => { if(bar) bar.style.transitionPlayState='running'; });
-    heroRoot.addEventListener('touchstart', () => { if(bar) bar.style.transitionPlayState='paused'; }, {passive:true});
-    heroRoot.addEventListener('touchend', () => { if(bar) bar.style.transitionPlayState='running'; }, {passive:true});
-    restartHeroProgress();
-    const mo = new MutationObserver(() => restartHeroProgress());
-    mo.observe($('#heroSlides'), {attributes:true, subtree:true, attributeFilter:['class']});
-  }
-
-  // Pointer light + subtle card depth on desktop; no effect on coarse touch devices.
-  if (!reduceMotion && matchMedia('(pointer:fine)').matches) {
-    addEventListener('pointermove', e => {
-      document.body.style.setProperty('--mx', `${e.clientX}px`);
-      document.body.style.setProperty('--my', `${e.clientY}px`);
-      const card = e.target.closest?.('.service-grid article, .offer');
-      if (card) {
-        const r = card.getBoundingClientRect();
-        const x = (e.clientX-r.left)/r.width*100, y=(e.clientY-r.top)/r.height*100;
-        card.style.setProperty('--card-x', `${x}%`); card.style.setProperty('--card-y', `${y}%`);
-        const rx=(y-50)*-0.035, ry=(x-50)*0.045;
-        card.style.transform=`perspective(900px) rotateX(${rx}deg) rotateY(${ry}deg) translateY(-5px)`;
-      }
-      $$('.service-grid article,.offer').forEach(c=>{if(c!==card)c.style.transform='';});
-    }, {passive:true});
-    addEventListener('pointerout', e => {
-      const card=e.target.closest?.('.service-grid article, .offer');
-      if(card && !card.contains(e.relatedTarget)) card.style.transform='';
-    }, {passive:true});
-  }
-
-  // Scroll-linked hero parallax, deliberately restrained for readability.
-  if (!reduceMotion) {
-    addEventListener('scroll', () => {
-      const y = Math.min(scrollY, 500);
-      const copy = $('.hero-copy'); const visual = $('.hero-visual');
-      if(copy) copy.style.transform=`translate3d(0,${y*.025}px,0)`;
-      if(visual) visual.style.transform=`translate3d(0,${y*.045}px,0)`;
-    }, {passive:true});
-  }
-
   carousel('hero',$('[data-carousel="hero"]'),$('#heroSlides'),$$('.slide'),$('#heroDots'),()=>1,6000);
   carousel('offers',$('[data-carousel="offers"]'),$('#offerTrack'),$$('.offer'),$('#offerDots'),()=>innerWidth<=780?1:innerWidth<=1100?2:3,6500);
   carousel('product',$('[data-carousel="product"]'),$('#productTrack'),$$('#productTrack figure'),$('#productDots'),()=>1,5500);
