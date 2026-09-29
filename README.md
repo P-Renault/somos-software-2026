@@ -1,10 +1,14 @@
-# Somos Software B8.0 — Carrusel Financiero Actualizado FINAL · FIX
+# Somos Software — B8.0 Premium / Narrative Technology
 
-Base: Carrusel Premium Title Impact v2 FINAL.
+Base: B8.0 Carrusel Premium estable, con la interacción aprobada conservada.
 
-Corrección específica: carrusel del Sistema de Control Financiero.
-- Orden: imagen 3 → imagen 2 → imagen 1.
-- Una sola diapositiva visible por vez.
-- Proporción visual 16:9 en escritorio y móvil.
-- Imágenes CCF embebidas en index.html para evitar fallos de carga relativos en GitHub Pages.
-- Sin cambios en la estructura general del sitio.
+Esta entrega añade únicamente una capa aditiva de interacción:
+- navegación activa según sección visible;
+- progreso narrativo de secciones;
+- iluminación contextual en tarjetas;
+- microinteracciones y barridos de luz;
+- continuidad visual del proceso;
+- estados tecnológicos discretos en hero/producto;
+- soporte para `prefers-reduced-motion`.
+
+No elimina ni reemplaza la estructura, contenidos, carruseles, imágenes ni navegación de la versión base.

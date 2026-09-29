@@ -109,6 +109,48 @@
 
   carousel('product',$('[data-carousel="product"]'),$('#productTrack'),$$('#productTrack figure'),$('#productDots'),()=>1,5500);
 
+  // NARRATIVE TECHNOLOGY — scroll intelligence, active navigation and tactile card light.
+  (() => {
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const sections = $$('main section[id]');
+    const navLinks = $$('#nav a[href^="#"]');
+    const updateNarrative = () => {
+      const vh = innerHeight || 1;
+      sections.forEach(section => {
+        const r = section.getBoundingClientRect();
+        const visible = Math.max(0, Math.min(vh, vh - Math.max(0, r.top)) - Math.max(0, r.bottom - vh));
+        const progress = Math.max(.08, Math.min(1, visible / Math.max(1, Math.min(vh, r.height))));
+        section.style.setProperty('--section-progress', progress.toFixed(3));
+      });
+      navLinks.forEach(a => {
+        const id = a.getAttribute('href').slice(1);
+        const sec = document.getElementById(id);
+        if (!sec) return;
+        const r = sec.getBoundingClientRect();
+        const active = r.top < vh * .42 && r.bottom > vh * .42;
+        a.classList.toggle('active', active);
+      });
+      document.documentElement.style.setProperty('--cursor-x', `${(scrollY % Math.max(1,innerHeight))/Math.max(1,innerHeight)*100}%`);
+    };
+    addEventListener('scroll', updateNarrative, {passive:true});
+    addEventListener('resize', updateNarrative);
+    updateNarrative();
+    if (!reduce && matchMedia('(pointer:fine)').matches) {
+      $$('.service-grid article,.offer,.process article,.product-media,.tags span').forEach(card => {
+        card.addEventListener('pointermove', e => {
+          const r=card.getBoundingClientRect();
+          card.style.setProperty('--card-x', `${((e.clientX-r.left)/r.width)*100}%`);
+          card.style.setProperty('--card-y', `${((e.clientY-r.top)/r.height)*100}%`);
+        });
+        card.addEventListener('pointerleave', () => { card.style.setProperty('--card-x','50%'); card.style.setProperty('--card-y','50%'); });
+      });
+      addEventListener('pointermove', e => {
+        document.documentElement.style.setProperty('--cursor-x', `${(e.clientX/innerWidth)*100}%`);
+        document.documentElement.style.setProperty('--cursor-y', `${(e.clientY/innerHeight)*100}%`);
+      }, {passive:true});
+    }
+  })();
+
   const WHATSAPP_NUMBER='';
   const wa=$('#whatsapp');
   const waUrl=m=>`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(m)}`;
