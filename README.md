@@ -29,3 +29,11 @@ Esta entrega agrega una capa de interacción avanzada **sin rediseñar ni reempl
 - `styles.css`: capa visual/animada adicional.
 
 `index.html` y los contenidos del sitio no fueron rediseñados.
+
+
+### Actualización del carrusel del Sistema de Control Financiero
+Se reemplazaron exclusivamente los tres visuales del carrusel de producto, respetando el orden solicitado:
+1. Imagen 3 → primer slide (`assets/ccf-carousel-01.webp`)
+2. Imagen 2 → segundo slide (`assets/ccf-carousel-02.webp`)
+3. Imagen 1 → tercer slide (`assets/ccf-carousel-03.webp`)
+Las imágenes se mantienen en 16:9 para conservar su composición original.
