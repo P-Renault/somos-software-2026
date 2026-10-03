@@ -253,8 +253,10 @@ body:after{content:"";position:fixed;inset:0;pointer-events:none;z-index:1;opaci
 .product-actions,.demo-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:25px}
 .demo-section{padding-bottom:125px}
 .demo-layout{display:grid;grid-template-columns:1.25fr .75fr;gap:24px;align-items:stretch}
-.demo-video-card{position:relative;overflow:hidden;border:1px solid rgba(24,200,244,.22);border-radius:30px;background:#07111d;box-shadow:0 30px 70px rgba(0,0,0,.35)}
-.demo-video{display:block;width:100%;aspect-ratio:16/9;object-fit:cover;background:#050a11}
+.demo-video-card{position:relative;width:min(100%,560px);margin:0 auto;overflow:hidden;border:1px solid rgba(24,200,244,.22);border-radius:30px;background:#07111d;box-shadow:0 30px 70px rgba(0,0,0,.35)}
+/* El video es 1088x1910. Se usa padding-ratio para que el marco no pueda caer a 16:9. */
+.demo-video-frame{position:relative;width:100%;height:0;padding-bottom:175.5514706%;overflow:hidden;background:#050a11;aspect-ratio:auto !important}
+.demo-video{position:absolute;inset:0;display:block;width:100% !important;height:100% !important;min-width:0;min-height:0;max-width:none;max-height:none;aspect-ratio:auto !important;object-fit:contain;object-position:center;background:#050a11}
 .video-meta{display:grid;gap:5px;padding:18px 20px 20px;border-top:1px solid var(--line)}
 .video-meta span{color:var(--cyan);font-size:8px;font-weight:900;letter-spacing:.18em}
 .video-meta b{font-size:18px}
@@ -297,6 +299,8 @@ footer{display:grid!important;grid-template-columns:1.4fr .7fr .9fr auto auto;ga
 @media(max-width:1100px){
   .education-grid,.experience-grid{grid-template-columns:repeat(2,1fr)}
   .demo-layout{grid-template-columns:1fr}
+  .demo-video-card{width:100%;max-width:none}
+  .demo-video-frame{width:100%;height:0;padding-bottom:175.5514706%;aspect-ratio:auto !important}
   .demo-copy{padding:10px 0}
   footer{grid-template-columns:1fr 1fr;align-items:start}
 }
