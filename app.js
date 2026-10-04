@@ -151,6 +151,52 @@
     }
   })();
 
+  // B9.1 — VIDEO AUTOPLAY RESPONSIVE
+  (() => {
+    const video = $('.demo-video');
+    if (!video || !('IntersectionObserver' in window)) return;
+
+    const SOMOS_VIDEO_CONFIG = {
+      autoplay: true,
+      muted: true,
+      playsInline: true,
+      threshold: 0.35,
+      pauseOutsideViewport: true,
+      resumeOnReentry: true
+    };
+
+    video.autoplay = SOMOS_VIDEO_CONFIG.autoplay;
+    video.muted = SOMOS_VIDEO_CONFIG.muted;
+    video.defaultMuted = SOMOS_VIDEO_CONFIG.muted;
+    video.playsInline = SOMOS_VIDEO_CONFIG.playsInline;
+    video.setAttribute('autoplay', '');
+    video.setAttribute('muted', '');
+    video.setAttribute('playsinline', '');
+
+    let hasEntered = false;
+
+    const startVideo = () => {
+      if (!SOMOS_VIDEO_CONFIG.autoplay) return;
+      video.muted = true;
+      const attempt = video.play();
+      if (attempt && typeof attempt.catch === 'function') attempt.catch(() => {});
+    };
+
+    const observer = new IntersectionObserver(entries => {
+      const entry = entries[0];
+      if (!entry) return;
+
+      if (entry.isIntersecting && entry.intersectionRatio >= SOMOS_VIDEO_CONFIG.threshold) {
+        if (!hasEntered || SOMOS_VIDEO_CONFIG.resumeOnReentry) startVideo();
+        hasEntered = true;
+      } else if (SOMOS_VIDEO_CONFIG.pauseOutsideViewport) {
+        video.pause();
+      }
+    }, { threshold: [0, SOMOS_VIDEO_CONFIG.threshold] });
+
+    observer.observe(video);
+  })();
+
   const WHATSAPP_NUMBER='56941239698';
   const wa=$('#whatsapp');
   const waUrl=m=>`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(m)}`;
