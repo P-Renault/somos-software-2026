@@ -197,6 +197,34 @@
     observer.observe(video);
   })();
 
+  // B9.2 · Catálogo de sistemas: apertura accesible, cierre por Escape y retorno de foco.
+  (() => {
+    const dialog = $('#productsDialog');
+    const openButton = $('#openProducts');
+    if (!dialog || !openButton) return;
+    let previousFocus = null;
+    const close = () => {
+      dialog.classList.remove('is-open');
+      dialog.setAttribute('aria-hidden', 'true');
+      document.body.classList.remove('dialog-open');
+      previousFocus?.focus();
+    };
+    openButton.addEventListener('click', () => {
+      previousFocus = document.activeElement;
+      dialog.classList.add('is-open');
+      dialog.setAttribute('aria-hidden', 'false');
+      document.body.classList.add('dialog-open');
+      $('.dialog-close', dialog)?.focus();
+    });
+    $$('[data-close-products]', dialog).forEach(button => button.addEventListener('click', close));
+    document.addEventListener('keydown', event => {
+      if (event.key === 'Escape' && dialog.classList.contains('is-open')) close();
+    });
+    $$('a', dialog).forEach(link => link.addEventListener('click', () => {
+      if (link.classList.contains('catalog-button') && !link.classList.contains('catalog-coming')) close();
+    }));
+  })();
+
   const WHATSAPP_NUMBER='56941239698';
   const wa=$('#whatsapp');
   const waUrl=m=>`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(m)}`;
